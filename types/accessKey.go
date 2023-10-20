@@ -2,9 +2,8 @@ package responseTypes
 
 type AccessKey string
 
-func NewAccessKey() *AccessKey {
+func NewAccessKey(key *string) *AccessKey {
 	// TODO: implement access key logic
-	key := "Not implemented yet"
-	AccessKey := AccessKey(key)
+	AccessKey := AccessKey(*key)
 	return &AccessKey
 }

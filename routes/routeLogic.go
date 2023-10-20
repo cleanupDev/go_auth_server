@@ -2,12 +2,17 @@ package routes
 
 import (
 	"encoding/json"
+	"fmt"
+	"io"
+	"log"
 	"net/http"
 
+	"github.com/cleanupDev/go_auth_server.git/database"
+	"github.com/cleanupDev/go_auth_server.git/handlers"
 	responseTypes "github.com/cleanupDev/go_auth_server.git/types"
 )
 
-func indexLogic(w http.ResponseWriter, r *http.Request) {
+func handleIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	responseData := responseTypes.NewResponse("Server Running", nil, nil)
@@ -22,15 +27,42 @@ func indexLogic(w http.ResponseWriter, r *http.Request) {
 	w.Write(responseJSON)
 }
 
-func loginLogic(w http.ResponseWriter, r *http.Request) {
+func handleLogin(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	// TODO: implement login logic
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		errorMessage := fmt.Sprintf("Failed to read request body: %s", err.Error())
+		http.Error(w, errorMessage, http.StatusBadRequest)
+		return
+	}
 
-	accessKey := responseTypes.NewAccessKey()
-	userData := responseTypes.NewUserData("test_username", "test_email", "test_password")
+	user, err := responseTypes.NewUserData()
+	if err != nil {
+		errorMessage := fmt.Sprintf("Failed to parse user data: %s", err.Error())
+		http.Error(w, errorMessage, http.StatusBadRequest)
+		return
+	}
+	if err := json.Unmarshal(body, &user); err != nil {
+		http.Error(w, "Failed to parse JSON data", http.StatusBadRequest)
+		return
+	}
 
-	responseData := responseTypes.NewResponse("Login successful", userData, accessKey)
+	userDB := database.GetUserData(user.Email, user.Password)
+	if userDB == nil {
+		http.Error(w, "Credentials incorrect", http.StatusNotFound)
+		return
+	}
+
+	accessString, err := handlers.GenerateJWT(user)
+	if err != nil {
+		log.Printf("Failed to generate access key: %s", err.Error())
+		http.Error(w, "Failed to generate access key", http.StatusInternalServerError)
+		return
+	}
+	accessKey := responseTypes.NewAccessKey(accessString)
+
+	responseData := responseTypes.NewResponse("Login successful", user, accessKey)
 
 	responseJSON, err := json.Marshal(responseData)
 	if err != nil {
@@ -42,7 +74,7 @@ func loginLogic(w http.ResponseWriter, r *http.Request) {
 	w.Write(responseJSON)
 }
 
-func registerLogic(w http.ResponseWriter, r *http.Request) {
+func handleRegister(w http.ResponseWriter, r *http.Request) {
 	// TODO: implement register logic
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)

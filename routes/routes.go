@@ -5,13 +5,13 @@ import (
 )
 
 func IndexRoute(w http.ResponseWriter, r *http.Request) {
-	methodNotAllowedWrapper(indexLogic, http.MethodGet)(w, r)
+	methodNotAllowedWrapper(handleIndex, http.MethodGet)(w, r)
 }
 
 func LoginRoute(w http.ResponseWriter, r *http.Request) {
-	methodNotAllowedWrapper(loginLogic, http.MethodPost)(w, r)
+	methodNotAllowedWrapper(handleLogin, http.MethodPost)(w, r)
 }
 
 func RegisterRoute(w http.ResponseWriter, r *http.Request) {
-	methodNotAllowedWrapper(registerLogic, http.MethodPost)(w, r)
+	methodNotAllowedWrapper(handleRegister, http.MethodPost)(w, r)
 }
