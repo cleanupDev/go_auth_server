@@ -8,11 +8,11 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", routes.RouteIndex)
+	http.HandleFunc("/", routes.IndexRoute)
 
-	http.HandleFunc("/login", routes.RouteLogin)
+	http.HandleFunc("/login", routes.LoginRoute)
 
-	http.HandleFunc("/register", routes.RouteRegister)
+	http.HandleFunc("/register", routes.RegisterRoute)
 
 	http.ListenAndServe(NewServerConfig("127.0.0.1", "8080").GetAddress(), nil)
 
