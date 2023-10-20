@@ -1,0 +1,44 @@
+version: "1.0"
+
+networks:
+  auth_net:
+    driver: bridge
+
+  
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: my-postgres-container
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    networks:
+      - auth_net
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    container_name: my-adminer-container
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - auth_net
+
+  auth_server:
+    build: .
+    image: auth_server:latest
+    container_name: my-auth-server-container
+    restart: always
+    ports:
+      - "5001:5001"
+    networks:
+      - auth_net
+    depends_on:
+      - postgres

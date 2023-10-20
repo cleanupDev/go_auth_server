@@ -2,3 +2,4 @@
 vs_code/
 .vs_code/
 *.pem
+postgres-data/

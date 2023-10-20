@@ -16,6 +16,6 @@ func main() {
 
 	http.HandleFunc("/register", routes.RegisterRoute)
 
-	http.ListenAndServe(NewServerConfig("127.0.0.1", "5001").GetAddress(), nil)
+	http.ListenAndServe(NewServerConfig("0.0.0.0", "5001").GetAddress(), nil)
 
 }
