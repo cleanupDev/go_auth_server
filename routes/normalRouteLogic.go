@@ -27,7 +27,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	w.Write(responseJSON)
 }
 
-func handleLogin(w http.ResponseWriter, r *http.Request) {
+func handleNormalLogin(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	body, err := io.ReadAll(r.Body)
@@ -74,7 +74,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 	w.Write(responseJSON)
 }
 
-func handleRegister(w http.ResponseWriter, r *http.Request) {
+func handleNormalRegister(w http.ResponseWriter, r *http.Request) {
 	// TODO: implement register logic
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
