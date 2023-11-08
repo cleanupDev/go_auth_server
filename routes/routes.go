@@ -11,8 +11,7 @@ func IndexRoute(w http.ResponseWriter, r *http.Request) {
 func LoginRoute(w http.ResponseWriter, r *http.Request) {
 	switch r.Header.Get("LoginType") {
 	case "google":
-		// TODO: implement google login
-		return
+		methodNotAllowedWrapper(handleGoogleLogin, http.MethodPost)(w, r)
 	case "normal":
 		methodNotAllowedWrapper(handleNormalLogin, http.MethodPost)(w, r)
 	default:
