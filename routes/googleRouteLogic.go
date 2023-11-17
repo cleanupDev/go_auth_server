@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/cleanupDev/go_auth_server.git/server"
 	"github.com/golang-jwt/jwt"
 )
 
@@ -22,7 +23,7 @@ func handleGoogleLogin(w http.ResponseWriter, r *http.Request) {
 	// decode jwt
 	claims := jwt.MapClaims{}
 	token, err := jwt.ParseWithClaims(string(tokenString[:]), claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte("<YOUR VERIFICATION KEY>"), nil
+		return []byte(server.GoogleOauthConfig.ClientSecret), nil
 	})
 
 	htmlString := `

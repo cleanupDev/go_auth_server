@@ -2,3 +2,5 @@
 *.pem
 postgres-data/
 .vscode/
+tmp/
+.env

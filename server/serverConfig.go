@@ -1,7 +1,8 @@
-package main
+package server
 
 import (
 	"fmt"
+	"os"
 
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
@@ -26,10 +27,8 @@ func (c *ServerConfig) GetAddress() string {
 }
 
 var GoogleOauthConfig = &oauth2.Config{
-	// TODO: add client id and secret
-	// TODO: read secrets from json file
-	ClientID:     "NOT_IMPLEMENTED",
-	ClientSecret: "NOT_IMPLEMENTED",
+	ClientID:     os.Getenv("GOOGLE_CLIENT_ID"),
+	ClientSecret: os.Getenv("GOOGLE_CLIENT_SECRET"),
 	Endpoint:     google.Endpoint,
 	Scopes:       []string{urlshortener.UrlshortenerScope},
 }
