@@ -9,6 +9,7 @@ import (
 )
 
 func ConnectDB() *gorm.DB {
+	//! TODO: move this to a config file
 	dsn := "user=myuser password=mypassword dbname=mydb host=localhost port=5432 sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {

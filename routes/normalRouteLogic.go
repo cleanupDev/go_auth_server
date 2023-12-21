@@ -27,6 +27,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	w.Write(responseJSON)
 }
 
+// TODO: possible refactor
 func handleNormalLogin(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -76,6 +77,7 @@ func handleNormalLogin(w http.ResponseWriter, r *http.Request) {
 
 func handleNormalRegister(w http.ResponseWriter, r *http.Request) {
 	// TODO: implement register logic
+	// TODO: implement email verification
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 }
