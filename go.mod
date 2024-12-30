@@ -1,6 +1,6 @@
 module github.com/cleanupDev/go_auth_server.git
 
-go 1.21.3
+go 1.23.4
 
 require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
